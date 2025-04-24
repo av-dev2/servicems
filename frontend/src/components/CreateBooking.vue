@@ -368,7 +368,7 @@ const sections = [
             {"name": "customer_name", "label": "Customer Name", "type": "Data", "placeholder": "Customer Name", "reqd": true},
             {
                 "name": "customer_type", "label": "Customer Type", "type": "Select", "placeholder": "Customer Type",
-                "options": ["Individual", "Corporate", "Government", "Non-profit"],
+                "options": ["Company", "Individual", "Partnership", "Corporate", "Government", "Non-profit"],
                 "reqd": true
             },
             {"name": "customer_group", "label": "Customer Group", "type": "Link", "placeholder": "Customer Group", "options": "Customer Group", "reqd": true},
