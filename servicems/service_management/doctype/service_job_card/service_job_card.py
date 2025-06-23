@@ -84,9 +84,10 @@ class ServiceJobCard(WebsiteGenerator):
 
         if self.services:
             for service in self.services:
-                service.rate = get_item_price(
-                    service.item, self.get_price_list(service.price_list), self.company
-                )
+                if not service.rate or service.rate == 0:
+                    service.rate = get_item_price(
+                        service.item, self.get_price_list(service.price_list), self.company
+                    )
                 if service.is_billable:
                     self.service_charges += service.rate
         if self.parts:
