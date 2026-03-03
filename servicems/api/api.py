@@ -120,6 +120,8 @@ def create_quotation(job_card_id):
     quo_doc.quotation_to = "Customer"
     quo_doc.party_name = job_card_doc.customer
     quo_doc.order_type = "Sales"
+    if frappe.get_meta("Quotation").has_field("service_job_card"):
+        quo_doc.service_job_card = job_card_doc.name
     quo_doc.items = []
 
 
