@@ -697,8 +697,9 @@
   },
   {
    "fieldname": "quotation",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Quotation",
+   "options": "Quotation",
    "read_only": 1
   }
  ],
@@ -708,6 +709,10 @@
  "links": [
   {
    "link_doctype": "Sales Invoice",
+   "link_fieldname": "service_job_card"
+  },
+  {
+   "link_doctype": "Quotation",
    "link_fieldname": "service_job_card"
   }
  ],
