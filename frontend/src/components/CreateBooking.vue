@@ -39,7 +39,7 @@
 import { ref, watch, reactive } from 'vue'
 import { ErrorMessage, createResource } from 'frappe-ui'
 import FieldMap from '../components/FieldMap.vue'
-import { useToast } from 'vue-toastification';
+import { useToast } from '@/composables/useToast.js';
 
 
 const isBookingCreating = ref(false)
@@ -52,7 +52,7 @@ const props = defineProps({
   booking_date: Date
 })
 
-const toast = useToast();
+const { showSuccess, showError, handleResourceError } = useToast();
 const emit = defineEmits(['closeDialog'])
 
 const localShowDialog = ref(props.showDialog)
@@ -79,13 +79,11 @@ const closeDialog = () => {
   emit('closeDialog')
 }
 
-function showToast(message, type) {    
-    const toastTypes = ['success', 'info', 'warning', 'error'];
-
-    if (toastTypes.includes(type) && toast[type]) {
-        toast[type](message);
-    } else {
-        toast(message);
+function showToast(message, type) {
+    if (type === 'success') {
+        showSuccess(message);
+    } else if (type === 'error') {
+        showError(message);
     }
 }
 
@@ -266,8 +264,7 @@ async function create_booking_docs() {
         await booking_doc.submit();
 
     } catch (err) {
-        error.value = 'Error while creating booking documents';
-        showToast(error.value, "error");
+        showToast('Error while creating booking documents', "error");
     } finally {
         isBookingCreating.value = false;
     }
