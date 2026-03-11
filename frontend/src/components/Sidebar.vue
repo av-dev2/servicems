@@ -24,10 +24,9 @@
 <script setup>
 import { onMounted } from 'vue'
 import { createDocumentResource } from 'frappe-ui'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/composables/useToast.js'
 
-
-const sideTos = useToast();
+const { handleResourceError } = useToast();
 
 function goToBookings() {
   window.location.href = '/app/service-booking'
@@ -46,12 +45,8 @@ let settings = createDocumentResource({
     name: "Navbar Settings",
 
     onError: (err) => {
-          if (!err.messages) {
-              tos.error(err.message)
-              return
-          }
-          tos.error(err.messages.join('\n'))
-      }
+        handleResourceError(err)
+    }
   }
 )
 </script>
