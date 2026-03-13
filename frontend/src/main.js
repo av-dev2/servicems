@@ -5,7 +5,7 @@ import router from './router'
 import App from './App.vue'
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
-
+import './styles/toast.css';
 
 import {
   Button,
@@ -40,7 +40,14 @@ app.use(Toast, {
   hideProgressBar: true,
   closeButton: "button",
   icon: true,
-  rtl: false
+  rtl: false,
+  newestOnTop: true,
+  filterBeforeCreate: (toast, toasts) => {
+    if (toasts.filter((t) => t.content === toast.content).length !== 0) {
+      return false;
+    }
+    return toast;
+  },
 })
 
 app.component('Button', Button)

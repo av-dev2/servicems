@@ -80,11 +80,11 @@
 
 <script setup>
 import { ref, computed, onMounted, reactive, watch } from 'vue'
-import { createResource, toast } from 'frappe-ui'
+import { createResource } from 'frappe-ui'
 import { addDays, format, differenceInDays } from 'date-fns'
 import CreateBooking from '@/components/CreateBooking.vue'
 import DateFilter from '@/components/DateFilter.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/composables/useToast.js'
 
 const today = new Date()
 const lastcount = ref(0)
@@ -99,7 +99,7 @@ const filters = reactive({
     workshop: '',
 })
 
-const tos = useToast();
+const { handleResourceError } = useToast();
 
 watch(() => filters, async () => {
     loading.value = true
@@ -124,11 +124,7 @@ const bay_data = createResource({
     onSuccess: (data) => {
     },
     onError: (err) => {
-        if (!err.messages) {
-            tos.error(err.message)
-            return
-        }
-        tos.error(err.messages.join('\n'))
+        handleResourceError(err)
     }
 })
 
