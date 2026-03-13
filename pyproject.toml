@@ -1,0 +1,53 @@
+[project]
+name = "servicems"
+authors = [
+    { name = "Aakvatech Limited", email = "info@aakvatech.com" },
+]
+description = "Service Management System for ERPNext"
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/Aakvatech-Limited/servicems"
+Repository = "https://github.com/Aakvatech-Limited/servicems.git"
+"Bug Reports" = "https://github.com/Aakvatech-Limited/servicems/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit>=3.8,<5",
+]
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.bench.frappe-dependencies]
+frappe = ">=15.0.0,<16.0.0"
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "F",
+    "E",
+    "W",
+    "I",
+    "UP",
+    "B",
+]
+ignore = [
+    "E402",
+    "E501",
+    "E741",
+    "W191",
+    "UP009",
+    "UP010",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "tab"
+docstring-code-format = true
