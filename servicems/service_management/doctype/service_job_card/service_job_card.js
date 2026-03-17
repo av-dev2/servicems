@@ -407,9 +407,9 @@ function is_parts_entry_applicable (frm) {
 
 }
 
-function remove_delete_button(frm) {
-	frm.set_df_property('parts', 'cannot_delete_rows', frm.doc.parts.filter(fetch_row_with_parts_entry) ? true : false);
-}
+// function remove_delete_button(frm) {
+// 	frm.set_df_property('parts', 'cannot_delete_rows', frm.doc.parts.filter(fetch_row_with_parts_entry) ? true : false);
+// }
 
 function fetch_row_with_parts_entry(row) {
 	return row.service_parts_entry;
