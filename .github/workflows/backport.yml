@@ -7,52 +7,23 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  issues: read
-
-concurrency:
-  group: backport-servicems-${{ github.event.pull_request.number || github.run_id }}
-  cancel-in-progress: false
 
 jobs:
   backport:
+    name: Backport PR
+    if: >
+      github.event.pull_request.merged == true
+      && contains(join(github.event.pull_request.labels.*.name, ','), 'backport-to-')
     runs-on: ubuntu-latest
 
     steps:
-      - name: Decide whether to run backport
-        id: gate
-        uses: actions/github-script@v7
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          script: |
-            const { owner, repo } = context.repo;
-            const prNumber = context.payload.pull_request.number;
-            const action = context.payload.action;
-
-            const pr = await github.rest.pulls.get({ owner, repo, pull_number: prNumber });
-            const merged = !!pr.data.merged;
-            const labels = (pr.data.labels || []).map(label => label.name);
-            const hasBackportLabel = labels.some(name => /^backport-to-.+/.test(name));
-            const shouldAutoMerge = labels.includes("backport-auto-merge");
-
-            let shouldRun = false;
-
-            if (action === "closed") {
-              shouldRun = merged && hasBackportLabel;
-            } else if (action === "labeled") {
-              const addedLabel = context.payload.label?.name || "";
-              shouldRun = merged && /^backport-to-.+/.test(addedLabel);
-            }
-
-            core.info(`Event action: ${action}`);
-            core.info(`PR merged: ${merged}`);
-            core.info(`Labels: ${labels.join(", ")}`);
-            core.info(`Should run backport: ${shouldRun}`);
-            core.info(`Auto-merge requested: ${shouldAutoMerge}`);
-
-            core.setOutput("run", shouldRun ? "true" : "false");
-            core.setOutput("auto_merge", shouldAutoMerge ? "true" : "false");
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create backport PR(s)
-        if: steps.gate.outputs.run == 'true'
         uses: korthout/backport-action@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -68,10 +39,10 @@ jobs:
           copy_requested_reviewers: true
           copy_assignees: true
           copy_labels_pattern: "^(?!backport-to-)"
-          auto_merge_enabled: ${{ steps.gate.outputs.auto_merge == 'true' }}
+          auto_merge_enabled: ${{ contains(join(github.event.pull_request.labels.*.name, ','), 'backport-auto-merge') }}
 
       - name: Report backport status
-        if: failure() && steps.gate.outputs.run == 'true'
+        if: failure()
         uses: actions/github-script@v7
         with:
           script: |
