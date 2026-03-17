@@ -1,6 +1,6 @@
 <template>
     <div class="mb-6">
-        <DateFilter :filters="filters" />
+        <BookingFilter :filters="filters" />
     </div>
     <div class="scroll h-[600px] overflow-y-auto">
         <div v-if="loading" class="text-center py-4 text-gray-500">Loading bookings...</div>
@@ -83,7 +83,7 @@ import { ref, computed, onMounted, reactive, watch } from 'vue'
 import { createResource } from 'frappe-ui'
 import { addDays, format, differenceInDays } from 'date-fns'
 import CreateBooking from '@/components/CreateBooking.vue'
-import DateFilter from '@/components/DateFilter.vue'
+import BookingFilter from '@/components/BookingFilter.vue'
 import { useToast } from '@/composables/useToast.js'
 
 const today = new Date()
@@ -97,6 +97,7 @@ const filters = reactive({
     from_date: today.value,
     to_date: '',
     workshop: '',
+    vehicle: '',
 })
 
 const { handleResourceError } = useToast();
@@ -117,6 +118,7 @@ const bay_data = createResource({
             from_date: filters.from_date || format(today.value, 'yyyy-MM-dd'),
             to_date: filters.to_date,
             workshop: filters.workshop,
+            vehicle: filters.vehicle,
         }
     },
     validate(params) {

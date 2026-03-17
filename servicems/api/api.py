@@ -86,6 +86,9 @@ def get_service_bays():
     if filters.get("workshop"):
         sb_query = sb_query.where(sb.workshop == filters.get("workshop"))
     
+    if filters.get("vehicle"):
+        sb_query = sb_query.where(sb.service_vehicle == filters.get("vehicle"))
+    
     sb_data = sb_query.run(as_dict=True)
     
     bay_names = [bay.bay_name for bay in sb_data]
