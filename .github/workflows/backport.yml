@@ -15,7 +15,6 @@ jobs:
       github.event.pull_request.merged == true
       && contains(join(github.event.pull_request.labels.*.name, ','), 'backport-to-')
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
