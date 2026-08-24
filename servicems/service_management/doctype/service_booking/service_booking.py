@@ -2,8 +2,9 @@
 # For license information, please see license.txt
 
 import frappe
-from frappe.utils import nowdate, nowtime
 from frappe.model.document import Document
+from frappe.utils import nowdate, nowtime
+
 
 class ServiceBooking(Document):
 	def before_insert(self):
@@ -18,7 +19,8 @@ class ServiceBooking(Document):
 	def close_booking(self):
 		self.status = "Closed"
 		self.save(ignore_permissions=True)
-	
+
+
 @frappe.whitelist()
 def bulk_close_bookings(booking_list):
 	booking_list = frappe.parse_json(booking_list)

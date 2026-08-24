@@ -3,23 +3,23 @@
 /* eslint-disable */
 
 frappe.query_reports["Service Job Card Detail"] = {
-	"filters": [
-		{
-			"fieldname": "from_date",
-			"fieldtype": "Date",
-			"label": __("From Date"),
-			"reqd": 1
-		},
-		{
-			"fieldname": "to_date",
-			"fieldtype": "Date",
-			"label": __("To Date"),
-			"reqd": 1
-		},
-		{
-			"fieldname": "customer_view",
-			"fieldtype": "Check",
-			"label": __("Customer View")
-		},
-	]
+  filters: [
+    {
+      fieldname: "from_date",
+      fieldtype: "Date",
+      label: __("From Date"),
+      reqd: 1,
+    },
+    {
+      fieldname: "to_date",
+      fieldtype: "Date",
+      label: __("To Date"),
+      reqd: 1,
+    },
+    {
+      fieldname: "customer_view",
+      fieldtype: "Check",
+      label: __("Customer View"),
+    },
+  ],
 };

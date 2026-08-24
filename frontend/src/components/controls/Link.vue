@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-1.5"  v-if="!attrs.disabled">
+  <div class="space-y-1.5" v-if="!attrs.disabled">
     <label class="block" :class="labelClasses" v-if="attrs.label">
       {{ attrs.label }}
     </label>
@@ -12,7 +12,6 @@
       :placeholder="attrs.placeholder"
       :filterable="false"
     >
-
       <template #target="{ open, togglePopover }">
         <slot name="target" v-bind="{ open, togglePopover }" />
       </template>
@@ -34,7 +33,8 @@
           <Button
             variant="ghost"
             class="w-full !justify-start"
-            :label=Create New
+            :label="Create"
+            New
             @click="attrs.onCreate(value, close)"
           >
             <template #prefix>
@@ -46,7 +46,7 @@
           <Button
             variant="ghost"
             class="w-full !justify-start"
-            :label=Clear
+            :label="Clear"
             @click="() => clearValue(close)"
           >
             <template #prefix>

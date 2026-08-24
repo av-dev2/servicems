@@ -19,5 +19,4 @@ const ping = createResource({
   url: 'ping',
   auto: true,
 })
-
 </script>
