@@ -1,21 +1,14 @@
 [project]
 name = "servicems"
 authors = [
-    { name = "Aakvatech Limited", email = "info@aakvatech.com" },
+    { name = "Aakvatech Limited", email = "info@aakvatech.com" }
 ]
 description = "Service Management System for ERPNext"
-readme = "README.md"
 requires-python = ">=3.10"
+readme = "README.md"
 dynamic = ["version"]
-
-[project.urls]
-Homepage = "https://github.com/Aakvatech-Limited/servicems"
-Repository = "https://github.com/Aakvatech-Limited/servicems.git"
-"Bug Reports" = "https://github.com/Aakvatech-Limited/servicems/issues"
-
-[project.optional-dependencies]
-dev = [
-    "pre-commit>=3.8,<5",
+dependencies = [
+    # "frappe" # Installed and managed by bench.
 ]
 
 [build-system]
