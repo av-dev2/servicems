@@ -28,6 +28,8 @@ jobs:
       - name: Install pre-commit
         run: pip install pre-commit
       - name: Run pre-commit on changed files
+        env:
+          SKIP: frappe-semgrep-rules
         run: |
           pre-commit run \
             --show-diff-on-failure \

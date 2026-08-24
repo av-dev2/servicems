@@ -28,3 +28,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+# cloned by the frappe-semgrep pre-commit hook
+frappe-semgrep-rules/
