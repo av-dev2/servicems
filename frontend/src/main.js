@@ -3,9 +3,9 @@ import './index.css'
 import { createApp } from 'vue'
 import router from './router'
 import App from './App.vue'
-import Toast from 'vue-toastification';
-import 'vue-toastification/dist/index.css';
-import './styles/toast.css';
+import Toast from 'vue-toastification'
+import 'vue-toastification/dist/index.css'
+import './styles/toast.css'
 
 import {
   Button,
@@ -19,7 +19,7 @@ import {
   Select,
   Dialog,
   FormControl,
-  FeatherIcon
+  FeatherIcon,
 } from 'frappe-ui'
 
 let app = createApp(App)
@@ -29,7 +29,7 @@ setConfig('resourceFetcher', frappeRequest)
 app.use(router)
 app.use(resourcesPlugin)
 app.use(Toast, {
-  position: "bottom-right",
+  position: 'bottom-right',
   timeout: 6000,
   closeOnClick: true,
   pauseOnFocusLoss: true,
@@ -38,15 +38,15 @@ app.use(Toast, {
   draggablePercent: 0.6,
   showCloseButtonOnHover: true,
   hideProgressBar: true,
-  closeButton: "button",
+  closeButton: 'button',
   icon: true,
   rtl: false,
   newestOnTop: true,
   filterBeforeCreate: (toast, toasts) => {
     if (toasts.filter((t) => t.content === toast.content).length !== 0) {
-      return false;
+      return false
     }
-    return toast;
+    return toast
   },
 })
 

@@ -1,11 +1,15 @@
 <template>
   <div class="h-screen w-60 bg-gray-200 flex flex-col items-start p-6">
     <div
-      v-if = "settings.doc && settings.doc.app_logo"
-      class="mb-8 w-24 h-auto  rounded-full flex items-center justify-center mx-8"
+      v-if="settings.doc && settings.doc.app_logo"
+      class="mb-8 w-24 h-auto rounded-full flex items-center justify-center mx-8"
       @click="goToHome()"
     >
-      <img :src="settings.doc.app_logo" alt="logo" class="w-full rounded-full" />
+      <img
+        :src="settings.doc.app_logo"
+        alt="logo"
+        class="w-full rounded-full"
+      />
     </div>
     <Button
       class="mb-8 w-full hover:bg-green-500/50 text-black font-bold py-6 px-4 rounded border-4 border-gray-300"
@@ -13,7 +17,7 @@
       @click="goToBookings()"
     />
 
-    <Button 
+    <Button
       class="w-full hover:bg-green-500/50 text-black font-bold py-6 px-4 rounded border-4 border-gray-300"
       label="Job Card"
       @click="goToJobCard()"
@@ -26,7 +30,7 @@ import { onMounted } from 'vue'
 import { createDocumentResource } from 'frappe-ui'
 import { useToast } from '@/composables/useToast.js'
 
-const { handleResourceError } = useToast();
+const { handleResourceError } = useToast()
 
 function goToBookings() {
   window.location.href = '/app/service-booking'
@@ -41,12 +45,11 @@ function goToHome() {
 }
 
 let settings = createDocumentResource({
-    doctype: "Navbar Settings",
-    name: "Navbar Settings",
+  doctype: 'Navbar Settings',
+  name: 'Navbar Settings',
 
-    onError: (err) => {
-        handleResourceError(err)
-    }
-  }
-)
+  onError: (err) => {
+    handleResourceError(err)
+  },
+})
 </script>

@@ -24,3 +24,6 @@ jobs:
           cache: pip
 
       - uses: pre-commit/action@v3.0.1
+        env:
+          # Full semgrep scan already runs in linter.yml
+          SKIP: frappe-semgrep-rules

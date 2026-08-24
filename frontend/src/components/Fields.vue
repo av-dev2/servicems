@@ -4,10 +4,18 @@
       v-if="field.type != 'Check'"
       class="mb-2 text-base text-gray-900 font-semibold"
     >
-      {{ field.label}}
-      <span 
+      {{ field.label }}
+      <span
         class="text-red-500 text-xl"
-        v-if="field.reqd && !((field.name === 'customer' && data['Service Booking']['is_new_customer']) || (field.name === 'service_vehicle' && data['Service Booking']['is_new_vehicle']))"
+        v-if="
+          field.reqd &&
+          !(
+            (field.name === 'customer' &&
+              data['Service Booking']['is_new_customer']) ||
+            (field.name === 'service_vehicle' &&
+              data['Service Booking']['is_new_vehicle'])
+          )
+        "
       >
         *
       </span>
@@ -34,34 +42,36 @@
         <IndicatorIcon :class="field.prefix" />
       </template>
     </FormControl>
-    <div
-      v-else-if="field.type == 'Check'"
-      class="flex items-center gap-2"
-    >
+    <div v-else-if="field.type == 'Check'" class="flex items-center gap-2">
       <FormControl
         class="form-control"
         type="checkbox"
         v-model="data[section.doctype][field.name]"
-        @change="(e) => updateCheckValue(section.doctype, field.name, e.target.checked)"
+        @change="
+          (e) => updateCheckValue(section.doctype, field.name, e.target.checked)
+        "
         :disabled="Boolean(field.read_only)"
         variant="outline"
       />
-      <label
-        class="text-sm text-gray-900 font-bold"
-      >
+      <label class="text-sm text-gray-900 font-bold">
         {{ field.label }}
         <span class="text-red-500 text-xl" v-if="field.reqd">*</span>
       </label>
     </div>
     <Link
-      v-else-if="field.type === 'Link' "
+      v-else-if="field.type === 'Link'"
       class="form-control"
       :value="data[section.doctype][field.name]"
       :doctype="field.options"
       @change="(v) => (data[section.doctype][field.name] = v)"
       :placeholder="field.placeholder || field.label"
       :onCreate="field.create"
-      :disabled="(field.name === 'customer' && data['Service Booking']['is_new_customer']) || (field.name === 'service_vehicle' && data['Service Booking']['is_new_vehicle'])"
+      :disabled="
+        (field.name === 'customer' &&
+          data['Service Booking']['is_new_customer']) ||
+        (field.name === 'service_vehicle' &&
+          data['Service Booking']['is_new_vehicle'])
+      "
     />
     <DatePicker
       v-else-if="field.type === 'Date'"
@@ -75,9 +85,7 @@
       v-model="data[section.doctype][field.name]"
     />
     <FormControl
-      v-else-if="
-        ['Small Text', 'Text', 'Long Text'].includes(field.type)
-      "
+      v-else-if="['Small Text', 'Text', 'Long Text'].includes(field.type)"
       type="textarea"
       :placeholder="field.placeholder || field.label"
       v-model="data[section.doctype][field.name]"
@@ -104,8 +112,8 @@
 </template>
 
 <script setup>
-import IndicatorIcon from '../components/icons/IndicatorIcon.vue';
-import Link from '../components/controls/Link.vue';
+import IndicatorIcon from '../components/icons/IndicatorIcon.vue'
+import Link from '../components/controls/Link.vue'
 
 const props = defineProps({
   section: Object,
@@ -113,22 +121,22 @@ const props = defineProps({
 })
 
 function updateField(doctype, name, value) {
-  const data = props.data;
-  if (data[doctype]) {  
-    data[doctype][name] = value;
+  const data = props.data
+  if (data[doctype]) {
+    data[doctype][name] = value
   }
 }
 
 function updateCheckValue(doctype, name, value) {
-  const data = props.data;
+  const data = props.data
   if (data[doctype]) {
-    data[doctype][name] = value;
+    data[doctype][name] = value
   }
   if (data['Service Booking']['is_new_customer']) {
-    data['Service Booking']['customer'] = '';
+    data['Service Booking']['customer'] = ''
   }
   if (data['Service Booking']['is_new_vehicle']) {
-    data['Service Booking']['service_vehicle'] = '';
+    data['Service Booking']['service_vehicle'] = ''
   }
 }
 </script>

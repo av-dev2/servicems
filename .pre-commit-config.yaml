@@ -1,11 +1,17 @@
-exclude: "node_modules|.git|servicems/public/frontend/assets"
+exclude: "node_modules|.git|servicems/public/frontend/assets|frappe-semgrep-rules"
 default_stages: [pre-commit]
+default_install_hook_types: [pre-commit, commit-msg]
 fail_fast: false
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
+      - id: trailing-whitespace
+        files: "servicems.*"
+        exclude: ".*json$|.*txt$|.*csv|.*md|.*svg"
+      - id: end-of-file-fixer
+        exclude: ".*json$|.*csv"
       - id: check-yaml
       - id: check-json
       - id: check-toml
@@ -32,17 +38,15 @@ repos:
         name: "Run ruff linter and apply fixes"
         args: ["--fix"]
         files: "^servicems/.*\\.py$"
-        stages: [manual]
       - id: ruff-format
         name: "Format Python code"
         files: "^servicems/.*\\.py$"
-        stages: [manual]
 
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v2.7.1
     hooks:
       - id: prettier
-        types_or: [javascript, vue, css, scss, json]
+        types_or: [javascript, vue, css, scss]
         files: "^(frontend|servicems)/.*"
         exclude: |
           (?x)^(
@@ -51,9 +55,27 @@ repos:
               .*node_modules.*|
               .*boilerplate.*
           )$
-        stages: [manual]
+
+  - repo: local
+    hooks:
+      - id: frappe-semgrep-rules
+        name: "Frappe Semgrep Security Rules"
+        entry: bash -c 'if [ ! -d frappe-semgrep-rules/.git ]; then rm -rf frappe-semgrep-rules && GIT_TEMPLATE_DIR="" git clone --depth 1 https://github.com/frappe/semgrep-rules.git frappe-semgrep-rules; fi && semgrep scan --config ./frappe-semgrep-rules/rules --config r/python.lang.security --severity=ERROR --error --quiet "$@"' --
+        language: python
+        additional_dependencies: ["semgrep"]
+        types: [python]
+        files: "^servicems/.*\\.py$"
+        pass_filenames: true
+        require_serial: true
+
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.22.0
+    hooks:
+      - id: commitlint
+        stages: [commit-msg]
+        additional_dependencies: ["@commitlint/config-conventional"]
 
 ci:
   autoupdate_schedule: weekly
-  skip: []
+  skip: [frappe-semgrep-rules]
   submodules: false

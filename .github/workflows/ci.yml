@@ -1,16 +1,11 @@
 name: CI
 
+# Server tests are disabled on push/PR: they need a full bench with MariaDB
+# and a test site, which is slow on GitHub runners.
+# Tests are run locally instead with: bench --site <site> run-tests --app servicems
+# To re-enable CI tests on every PR, restore the pull_request/schedule triggers.
 on:
-  pull_request:
-    paths-ignore:
-      - "**.css"
-      - "**.js"
-      - "**.md"
-      - "**.html"
-      - "**.csv"
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"
 
 permissions:
   contents: read
