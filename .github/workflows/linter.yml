@@ -28,6 +28,9 @@ jobs:
       - name: Install pre-commit
         run: pip install pre-commit
       - name: Run pre-commit on changed files
+        env:
+          # this job runs its own full semgrep scan below
+          SKIP: frappe-semgrep
         run: |
           pre-commit run \
             --show-diff-on-failure \
@@ -36,7 +39,9 @@ jobs:
             --to-ref HEAD
 
       - name: Download Semgrep rules
-        run: git clone --depth 1 https://github.com/frappe/semgrep-rules.git frappe-semgrep-rules
+        run: |
+          rm -rf frappe-semgrep-rules
+          git clone --depth 1 https://github.com/frappe/semgrep-rules.git frappe-semgrep-rules
 
       - name: Run Semgrep rules
         run: |
