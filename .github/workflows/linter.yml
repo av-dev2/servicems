@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.14'
           cache: pip
       - name: Install pre-commit
         run: pip install pre-commit
@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.14'
 
       - uses: actions/checkout@v4
 
